@@ -1,10 +1,12 @@
+import Chai from "./Chai"
+
 function App() {
 
 
   return (
     <>
       <div>
-        Hello chai aur react with vite
+         <Chai/>
       </div>
     </>
   )

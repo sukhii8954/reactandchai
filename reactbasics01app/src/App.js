@@ -1,7 +1,8 @@
+import Chai from './Chai'
 function App() {
   return (
     <div className="App">
-       <h1>hello chai aur react </h1>
+         <Chai/>
     </div>
   );
 }
