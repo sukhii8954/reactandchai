@@ -11,6 +11,9 @@ function useCurrencyInfo (currency){
          fetch( `https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/${currency}.json`)
          .then((response)=> response.json())
 
+
+         
+
         //    taking out or parsing out the data converted in json form
 
          .then((response) =>setData(response[currency]))
