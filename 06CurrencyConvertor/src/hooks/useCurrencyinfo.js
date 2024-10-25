@@ -8,7 +8,7 @@ function useCurrencyInfo (currency){
 
         // data fetched in form of string converting into json format
           
-         fetch( `https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/usd.json`)
+         fetch( `https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/${currency}.json`)
          .then((response)=> response.json())
 
         //    taking out or parsing out the data converted in json form
