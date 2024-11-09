@@ -7,7 +7,7 @@ const Themebtn = () => {
    const {themeMode ,lightTheme, darkTheme} = useTheme()
 //    on toggling the btn this function will called and in this status would get checked and get change 
    const onChangeBtn = (e)=> {
-    // It’s similar to e.target, but currentTarget 
+    // e.currentTarget similar to e.target, but currentTarget 
     // is often more accurate when dealing with event
     //  delegation.
        const darkModeStatus = e.currentTarget.checked
