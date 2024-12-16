@@ -23,7 +23,7 @@ const Contactus = () => {
                   stroke-width="1.5"
                   viewBox="0 0 24 24"
                   className="w-8 h-8 text-gray-500"
-                >
+                > 
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -36,7 +36,7 @@ const Contactus = () => {
                     stroke-width="1.5"
                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                   />
-                </svg>
+                 </svg>
                 <div className="ml-4 text-md tracking-wide font-semibold w-40">
                   122/A B.P colony Civil Lines , Rampur , U.P
                 </div>

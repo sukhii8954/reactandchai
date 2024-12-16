@@ -6,17 +6,20 @@ const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   
+
+  // setUser is an object
+  // we getting access of setUser from usecontext 
   const {setUser} = useContext(UserContext) 
 
 
     const handleSubmit  = (e) => {
        e.preventDefault();
-       setUser({username, password})
+       setUser({username, password})  // passing values in setUser and setting values in it
     }
 
 // how we fetch values in Usercontext we take help of usecontext
 //  IMP **** thing  we passed setuser in UserContext we 
-//  setting in useContext which taking the context.
+//  setting in use Context which taking the context.
 
 
   return (

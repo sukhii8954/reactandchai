@@ -10,8 +10,8 @@ const Themebtn = () => {
     // e.currentTarget similar to e.target, but currentTarget 
     // is often more accurate when dealing with event
     //  delegation.
-       const darkModeStatus = e.currentTarget.checked
-       if(darkModeStatus) {
+       const darkModeStatus = e.currentTarget.checked // checking status of checked button here and holding that value
+       if(darkModeStatus) { // means if it has some value in checked then calling darktheme method
         darkTheme()
        } else {
         lightTheme()
@@ -25,7 +25,9 @@ const Themebtn = () => {
       value=""
       className="sr-only peer"
       onChange={onChangeBtn}
-      checked= {themeMode === "dark"} />
+
+      // here we are setting that on checked of toggle button theme should be dark
+      checked= {themeMode === "dark"} /> 
 
       <div
         className="w-11 h-6 bg-gray-200 peer-focus:outline-none

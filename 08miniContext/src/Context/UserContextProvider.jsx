@@ -15,7 +15,8 @@ const UserContextProvider = ({children}) => {
 export default UserContextProvider
 
 // Note:- 
-//  children is like a div joh bhi a rha h as a prop usko as it is likhdo 
+//  children is like a div joh bhi a rha h as a prop usko as it is pass krdo 
+//  children ki jgh kuch or naam bhi de sakte h 
 /*
   children act like a special prop lets you pass components or 
   elements nested inside a component's opening and closing tags

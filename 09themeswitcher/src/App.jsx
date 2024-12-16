@@ -21,7 +21,7 @@ function App() {
   useEffect(() => {
     //  removing the default classes of theme in html 
      document.querySelector('html').classList.remove("light","dark")
-    //  no we have to add our own value so we removed default value
+    //  now we have to add our own value so we removed default value
     document.querySelector("html").classList.add(themeMode); // joh bhi theme mai hoga voh set hojyega light hoga ya dark hoga 
 
   },[themeMode]);
