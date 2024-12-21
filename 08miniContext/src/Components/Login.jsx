@@ -8,8 +8,9 @@ const Login = () => {
   
 
   // setUser is an object
-  // we getting access of setUser from usecontext 
+//  setting data imported from Usercontext in setUser
   const {setUser} = useContext(UserContext) 
+
 
 
     const handleSubmit  = (e) => {
