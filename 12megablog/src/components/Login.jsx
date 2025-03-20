@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit} = useForm();
   const [error, setError] = useState("");
 
   const login = async (data) => {
@@ -80,7 +80,7 @@ const Login = () => {
                             // eslint-disable-next-line no-useless-escape
                             /^([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$/
                             .test(value)  // test for value
-                             || "Emai address must be valid address"
+                              || "Emai address must be valid address"
                         }
                     }
                   })}  // it is a syntax

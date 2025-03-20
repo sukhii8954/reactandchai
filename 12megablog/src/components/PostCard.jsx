@@ -18,7 +18,7 @@ const PostCard = ({$id , title , featuredImage}) => {
                   alt={title} />
                   {/* featuredImage is in itself is a id and post id is in itself is post these are not same */}
 
-                  
+                   
               </div>
                <h2 className='text-xl font-bold' >{title}</h2>
            </div>
