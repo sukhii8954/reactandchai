@@ -16,13 +16,12 @@ const Signup = () => {
 
   const create = async (data) => {
     setError("");
-
     try {
       const userData = await authService.createAccount(data);
 
       if (userData) {
         const newUserData = await authService.getCurrentUser();
-        if (newUserData) {
+        if (newUserData) {     // if we get the userData then we update the store by dispatching it
           dispatch(login(newUserData));
           navigate("/");
         }
@@ -77,8 +76,9 @@ const Signup = () => {
                   // it is a pattern which want to match of email
                   matchPatern: (value) => {
                     // eslint-disable-next-line no-useless-escape
-                    /^([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$/.test(value) || // test for value
-                      "Emai address must be valid address";
+                    /^([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$/
+                    .test(value) || // test for value
+                      "Email address must be valid address";
                   },
                 },
               })} // it is a syntax
@@ -93,6 +93,14 @@ const Signup = () => {
               type="password"
               {...register("password", {
                 required: true,
+                validate: {
+                  matchPatern: (value) => {
+                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/
+                    .test(value) 
+                    || 
+                     "password must contain the special character";
+                  }
+                }
               })}
             />
 
