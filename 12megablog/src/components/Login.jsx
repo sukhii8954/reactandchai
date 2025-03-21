@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { register, handleSubmit} = useForm();
+  const { register, handleSubmit} = useForm();  // register is a way of form handling and its a syntax of react hook form
   const [error, setError] = useState("");
 
   const login = async (data) => {
@@ -23,13 +23,13 @@ const Login = () => {
       // when user getting logging in then we send
       // its data to login service we made in authservice
       const session = await authService.login(data);
-      //   whatever response we get is it in form of
+      //   whatever response we get ,is the in form of
       // session and we check if have session then
       // user is logged in otherwise not.
       if (session) {
         //   if user logged in we get the data for current user
         const userData = await authService.getCurrentUser();
-        if (userData) dispatch(authLogin(userData));
+        if (userData) dispatch(authLogin(userData));  // authlogin is login in authslice can also be name as storeLogin
         navigate("/"); // if user logged in we navigate it to the route
       }
     } catch (error) {
@@ -49,7 +49,7 @@ const Login = () => {
         </div>
         <h2 className="text-center text-2xl font-bold leading-tight">
           Sign in to your account
-        </h2>
+        </h2>  
         <p className="mt-2 text-center text-base text-black/60">
           Don&apos;t have an account ?&nbsp;
           <Link
@@ -69,7 +69,7 @@ const Login = () => {
         <form  className="mt-8"
         onSubmit={handleSubmit(login)}>
             <div className="space-y-5">
-                <Input 
+                <Input    // it is a component we made Input.jsx
                   label = "Email: "
                   placeholder = "Enter your email"
                   type="email"
@@ -78,14 +78,15 @@ const Login = () => {
                     validate:{  // it is a pattern which want to match of email
                         matchPatern: (value)=> {
                             // eslint-disable-next-line no-useless-escape
-                            /^([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$/
-                            .test(value)  // test for value
-                              || "Emai address must be valid address"
+                            /^([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$/   // taken from regexr . com
+                            .test(value)  // test for value : joh bhi email value mili h is pattern se 
+                                          // se match ho rahe h toh theek h vrna display below message
+                              || "Email address must be valid address"
                         }
                     }
                   })}  // it is a syntax
-                //   ... is important to use because if we 
-                //   use register in any other input then its
+                //   ... spread operator is important to use with register everywhere 
+                // because if we use register in any other input then its
                 //  value get overwrite that we don't want to do
                  />
                  <Input
@@ -119,8 +120,9 @@ const Login = () => {
 
 export default Login;
 
-        {/* handleSubmit is a keyword now which is taken from useForm and
-        we  pass on what we have to submit the form and it is an event */}
+        {/* handleSubmit is a method in its own and in which we pass our method 
+         to submit the form and it is an become an keyword as it came from useForm
+         also an event */}
 
         {/* Note:- this event is called and it takes the values
         from the input field  with the help of register and 

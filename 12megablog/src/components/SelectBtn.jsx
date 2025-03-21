@@ -10,7 +10,7 @@ const SelectBtn = ({
       
 },ref) => {  // without ref parent component would not get directly connected to <select> 
 
-    const id = useId();
+    const id = useId();   // useId imported from react 
   return (
     <div className='w-full'>
         {label &&  // if there is label then we display label
