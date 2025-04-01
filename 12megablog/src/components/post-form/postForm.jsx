@@ -2,10 +2,10 @@
 /* eslint-disable no-undef */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-unused-vars */
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Input, Button, RTE } from "../index";
-import service from "../../appwrite/config;";
+import { Input, Button, RTE ,SelectBtn } from "../index";
+import appwriteSerivice from "../../appwrite/config;";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -65,11 +65,12 @@ function postForm({ post }) {
   //  we have 2 i/p field : title and slug
   // title : we have to watch it
   // slug : have to generate value in it
-
+ 
+  // Note:-  The useCallback hook in React memoizes a function, meaning it stores the function reference and ensures that it is not recreated on every render unless its dependencies change.
   const slugTransform = useCallback((val) => {
     if (val && typeof val === "string")
       return val
-        .trim()
+        .trim() // Removes extra spaces from start and end
         .toLowerCase()
         .replace(/[^a-zA-Z\d\s]+/g, "-")
         .replace(/\s/g, "-");
@@ -77,7 +78,80 @@ function postForm({ post }) {
     return "";
   }, []);
 
-  return <div>PostForm</div>;
+
+  // Note:interview ques: if you taken an useeffect and called one method in it so how would you optimize it ?
+    //  we can store that method in a variable (just shown below) and would return in a callback func with .unsubscribe
+    //  so that it get called again and again
+    
+    // ans: Subscribing and unsubscribing within the useEffect's cleanup function (return () => subscription.unsubscribe();) ensures that the subscription's lifecycle is tied to the component's lifecycle.
+    // By only subscribing when the dependancy array changes, we are preventing unecessary subscriptions and unsubscriptions. If the dependancy array never changes, then the subscription only happens once
+
+  useEffect(()=> {
+                             // passing value and name when we would make a form then we pass from that here
+         const subscription = watch((value , {name})=> {
+          if(name === 'title'){
+            setValue('slug',slugTransform(value.title,
+              {shouldValidate: true}
+            )) // setting value within a slug which is a i/p field in form and 
+                                                         // the value we made from slugtransform will set that value
+            }                                           // value is an object here that's why value.title we taking
+         })
+
+         return ()=> {
+          subscription.unsubscribe()
+         }
+  }, [watch,slugTransform,setValue])
+
+  return (
+    <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
+    <div className="w-2/3 px-2">
+        <Input
+            label="Title :"
+            placeholder="Title"
+            className="mb-4"
+            {...register("title", { required: true })}
+        />
+        <Input
+            label="Slug :"
+            placeholder="Slug"
+            className="mb-4"
+            {...register("slug", { required: true })}
+            onInput={(e) => {
+                setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
+            }}
+        />
+        <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
+    </div>
+    <div className="w-1/3 px-2">
+        <Input
+            label="Featured Image :"
+            type="file"
+            className="mb-4"
+            accept="image/png, image/jpg, image/jpeg, image/gif"
+            {...register("image", { required: !post })}
+        />
+        {post && (
+            <div className="w-full mb-4">
+                <img
+                    src={appwriteService.getFilePreview(post.featuredImage)}
+                    alt={post.title}
+                    className="rounded-lg"
+                />
+            </div>
+        )}
+        <SelectBtn
+            options={["active", "inactive"]}
+            label="Status"
+            className="mb-4"
+            {...register("status", { required: true })}
+        />
+        <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
+            {post ? "Update" : "Submit"}
+        </Button>
+    </div>
+</form>
+    
+  )
 }
 
 export default postForm;
