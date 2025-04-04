@@ -4,7 +4,8 @@ import React from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { Controller } from "react-hook-form";
 
-export default function RTE({ name, control, label, defaultValue = "" }) {  // RTE - real time editor
+export default function RTE({ name, control, label, defaultValue = "" }) {
+  // RTE - real time editor
   return (
     <div className="w-full">
       {label && <label className="inline-block mb-1 pl-1">{label}</label>}
@@ -12,8 +13,9 @@ export default function RTE({ name, control, label, defaultValue = "" }) {  // R
       <Controller
         name={name || "content"} // its a input field's name
         control={control} //it will pass by parent element at that will the control of this component
+        //  is  field mai kuch bhi update/modification hota h toh inform krdena render ke sath
         render={({ field: { onChange } }) => (
-          // joh bhi render krvana h voh idhr likhenge
+          // joh bhi render krvana h voh idhr likhenge  (<input> , <textarea> , <Editor>)
           <Editor
             initialValue="default value"
             init={{
@@ -46,6 +48,10 @@ export default function RTE({ name, control, label, defaultValue = "" }) {  // R
             }}
             onEditorChange={onChange}
 
+            // Notes:-
+            // Use of controller of RHF:
+            // The Controller component in React Hook Form (RHF) acts as a bridge between controlled components (like TinyMCE Editor) and RHF’s form state management. Since TinyMCE is not a regular input field (like <input> or <textarea>), we need Controller to properly manage its value and updates.
+
             // means what change take place in editor
             // if there is any change in editor then our field is governed by onchange
 
@@ -54,8 +60,8 @@ export default function RTE({ name, control, label, defaultValue = "" }) {  // R
             Whenever a user types inside the editor, onEditorChange fires.
             The updated text is sent to onChange, which updates the form state. */
           />
-        )} 
-      /> 
+        )}
+      />
     </div>
     // NOTES: render in controller
     /* Controller manages the form field, but since it doesn’t know how to display it, we use render to tell it how to render the component.

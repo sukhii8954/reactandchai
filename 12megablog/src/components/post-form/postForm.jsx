@@ -5,12 +5,12 @@
 import React, { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Input, Button, RTE ,SelectBtn } from "../index";
-import appwriteSerivice from "../../appwrite/config;";
+import appwriteService from "../../appwrite/config;";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function postForm({ post }) {
-  const { register, handleSubmit, watch, setValue, control } = useForm({
+  const { register, handleSubmit, watch, setValue, control ,getValues } = useForm({
     defaultValues: {
       // if post already exist then we give exist title to edit otherwise we give empty string to enter new title
       title: post?.title || "",
@@ -21,20 +21,20 @@ function postForm({ post }) {
   });
 
   const navigate = useNavigate();
-  const userData = useSelector((state) => state.user.userData); // we take the data of user from the state with the help of use select   ???
+  const userData = useSelector((state) => state.user.userData); // we take the data of user from the state with the help of use selector (getting data  with the help of redux toolkit which we used in authslice.js to take user data if it is login)  ???
 
   const submit = async (data) => {
     if (post) {
       // if post already exist then we update the post with the data by handling the file
       const file = data.image[0]
-        ? await appwriteSerivice.uploadFile(data.image[0])
+        ? await appwriteService.uploadFile(data.image[0])
         : null; // if first exist then upload
-      if (file) {
+      if (file) {  // this means: if file is uploaded then we run one operation of deletion
         // if we have file then we delete previous image already exist
-        await appwriteSerivice.deleteFile(post.featuredImage);
+        await appwriteService.deleteFile(post.featuredImage);
       }
-
-      const dbPost = await appwriteSerivice.updatePost(post.$id, {
+            // post.$id = slug here 
+      const dbPost = await appwriteService.updatePost(post.$id, {
         ...data, // spreading the all data related to post
         featuredImage: file ? file.$id : undefined,
       });
@@ -44,13 +44,13 @@ function postForm({ post }) {
     } else {
       // creating new post and uploading file with conditional check
       const file = data.image[0]
-        ? await appwriteSerivice.uploadFile(data.image[0])
+        ? await appwriteService.uploadFile(data.image[0])
         : null;
 
       if (file) {
         const fileId = file.$id;
         data.featuredImage = fileId;
-        const newPost = await appwriteSerivice.createPost({
+        const newPost = await appwriteService.createPost({
           ...data,
           // when creating a form we would never have a userdata so we get userdata from store and pass it here
           userId: userData.$id,
@@ -75,13 +75,13 @@ function postForm({ post }) {
         .replace(/[^a-zA-Z\d\s]+/g, "-")
         .replace(/\s/g, "-");
   //  if we dont have value and its type is not string then we return empty string 
-    return "";
+      return "";
   }, []);
 
 
   // Note:interview ques: if you taken an useeffect and called one method in it so how would you optimize it ?
     //  we can store that method in a variable (just shown below) and would return in a callback func with .unsubscribe
-    //  so that it get called again and again
+    //  so that it did not get called again and again in itself
     
     // ans: Subscribing and unsubscribing within the useEffect's cleanup function (return () => subscription.unsubscribe();) ensures that the subscription's lifecycle is tied to the component's lifecycle.
     // By only subscribing when the dependancy array changes, we are preventing unecessary subscriptions and unsubscriptions. If the dependancy array never changes, then the subscription only happens once
@@ -89,7 +89,7 @@ function postForm({ post }) {
   useEffect(()=> {
                              // passing value and name when we would make a form then we pass from that here
          const subscription = watch((value , {name})=> {
-          if(name === 'title'){
+          if(name === 'title'){   // we get title from data user passed and that is stored by ...register 
             setValue('slug',slugTransform(value.title,
               {shouldValidate: true}
             )) // setting value within a slug which is a i/p field in form and 
@@ -123,7 +123,7 @@ function postForm({ post }) {
         <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
     </div>
     <div className="w-1/3 px-2">
-        <Input
+        <Input    
             label="Featured Image :"
             type="file"
             className="mb-4"
